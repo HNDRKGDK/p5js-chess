@@ -19,6 +19,10 @@ const pieceswidth = 8;
 let pieces = [];
 let selected = null; // piece
 
+/// @brief let gay = false; // piece
+
+let whiteturn = true;
+let blackturn = false;
 
 function preload(){
 
@@ -93,30 +97,58 @@ function mousePressed()
 	handleUserInput();
 }
 
-function handleUserInput()
-{
+function handleUserInput() {
 	let click = getClickPosition();
-	// console.log(click);
-	// console.log(click);
-
-	if (selected == null)// select piece on FIRST click
-	{
-		for (let i = 0; i < pieces.length; i++)
-		{
-			if (pieces[i].position.x == click.x && pieces[i].position.y == click.y)
-			{
-				selected = pieces[i];
-				console.log(selected.name);
-				possibleMoves(selected, click.x, click.y);
-			}
+  
+	if (selected == null) {
+	  // Select a piece on the first click
+	  for (let i = 0; i < pieces.length; i++) {
+		if (pieces[i].position.x == click.x && pieces[i].position.y == click.y) {
+		  if (whiteturn && pieces[i].color == 1) {
+			selected = pieces[i];
+			break;
+		  } else if (blackturn && pieces[i].color == 0) {
+			selected = pieces[i];
+			break;
+		  }
 		}
+	  }
+	} else {
+	  // Move the selected piece or capture opponent's piece
+	  for (let i = 0; i < selected.moves.length; i++) {
+		let move = selected.moves[i];
+		let x = selected.position.x + move.x;
+		let y = selected.position.y + move.y;
+  
+		if (click.x == x && click.y == y) {
+		  // Check if there is an opponent's piece at the clicked position
+		  for (let j = 0; j < pieces.length; j++) {
+			if (pieces[j].position.x == click.x && pieces[j].position.y == click.y) {
+			  // Capture the opponent's piece by removing it from the array
+			  pieces.splice(j, 1);
+			  break;
+			}
+		  }
+  
+		  // Move the selected piece
+		  selected.position.x = x;
+		  selected.position.y = y;
+		  selected = null;
+  
+		  // Switch turns
+		  if (whiteturn) {
+			whiteturn = false;
+			blackturn = true;
+		  } else {
+			whiteturn = true;
+			blackturn = false;
+		  }
+  
+		  break;
+		}
+	  }
 	}
-	else {
-		// TODO we need to move selected piece
-		selected.position =  selected.position + selected.moves[1];
-		console.log("TEST2 " + selected.position);
-	}	
-}
+  }
 
 
 function keyPressed()
@@ -136,28 +168,6 @@ function getClickPosition()
 	
 	return v;
 }
-
-function possibleMoves(sel, xpos, ypos)
-{
-	// pieces[16] = new Pawn(imgPawn_B, 0);
-	console.log("selected in possiblemoves: " + sel.name + "("+sel.moves.length+")");
-
-	for (let i = 0; i < sel.moves.length; i++) 
-	{
-		console.log("moves: " + sel.moves[i]);
-
-		y = sel.moves[i].y + xpos;
-		x = sel.moves[i].x + ypos;
-		
-		// console.log("change moves1: " + ypos + xpos);
-		console.log("change moves2: " + "y:" + y + " " + "x:"+ x);
-		ellipse(x+(width/16), y+(width/16), 50);	
-
-		
-		
-	}
-}
-
 
 function showSelected()
 {
