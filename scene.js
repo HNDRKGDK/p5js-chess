@@ -114,17 +114,19 @@ function handleUserInput() {
 		}
 	  }
 	} else {
-	  // Move the selected piece or capture opponent's piece
+
+	  // Move the selected piece or capture a piece
 	  for (let i = 0; i < selected.moves.length; i++) {
+		//Make local variables, easier to read
 		let move = selected.moves[i];
 		let x = selected.position.x + move.x;
 		let y = selected.position.y + move.y;
   
 		if (click.x == x && click.y == y) {
-		  // Check if there is an opponent's piece at the clicked position
+		  // Check if there is a piece at the clicked position
 		  for (let j = 0; j < pieces.length; j++) {
 			if (pieces[j].position.x == click.x && pieces[j].position.y == click.y) {
-			  // Capture the opponent's piece by removing it from the array
+			  // Capture the piece by removing it from the array
 			  pieces.splice(j, 1);
 			  break;
 			}
@@ -173,9 +175,6 @@ function showSelected()
 {
 	if (selected != null)
 	{
-		if (selected.PI)[
-			
-		]
 		let xpos = Math.floor(selected.position.x * (width / 8));
 		let ypos = Math.floor(selected.position.y * (width / 8));
 				

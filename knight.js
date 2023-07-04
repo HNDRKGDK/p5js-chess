@@ -7,7 +7,7 @@ class Knight extends Piece {
         this.moves.push(createVector(2,-1));
         this.moves.push(createVector(1,-2));
         this.moves.push(createVector(-1,-2));
-       this.moves.push(createVector(-2,-1));
+        this.moves.push(createVector(-2,-1));
         this.moves.push(createVector(-2,1));
         this.moves.push(createVector(-1,2));
         this.moves.push(createVector(1,2));
